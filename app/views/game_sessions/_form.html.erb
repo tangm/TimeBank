@@ -1,0 +1,49 @@
+<%= form_for(@game_session) do |f| %>
+  <% if @game_session.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@game_session.errors.count, "error") %> prohibited this session from being saved:</h2>
+
+      <ul>
+      <% @game_session.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :player_id %><br />
+    <%= f.text_field :player_id %>
+  </div>
+  <div class="field">
+    <%= f.label :game_id %><br />
+    <%= f.text_field :game_id %>
+  </div>
+  <div class="field">
+    <%= f.label :turn_number %><br />
+    <%= f.text_field :turn_number %>
+  </div>
+  <div class="field">
+    <%= f.label :round_number %><br />
+    <%= f.text_field :round_number %>
+  </div>
+  <div class="field">
+    <%= f.label :turn_time %><br />
+    <%= f.time_select :turn_time %>
+  </div>
+  <div class="field">
+    <%= f.label :time_bank %><br />
+    <%= f.time_select :time_bank %>
+  </div>
+  <div class="field">
+    <%= f.label :time_taken_so_far %><br />
+    <%= f.time_select :time_taken_so_far %>
+  </div>
+  <div class="field">
+    <%= f.label :turn_order %><br />
+    <%= f.text_field :turn_order %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

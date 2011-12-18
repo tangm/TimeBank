@@ -1,0 +1,34 @@
+<h1>New Game session</h1>
+
+<%= form_for(@game) do |f| %>
+  <% if @game.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@game.errors.count, "error") %> prohibited this game from being saved:</h2>
+
+      <ul>
+      <% @game.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :time_per_turn %><br />
+    <%= f.time_select :time_per_turn %>
+  </div>
+  <div class="field">
+    <%= f.label :timebank_per_player %><br />
+    <%= f.time_select :timebank_per_player %>
+  </div>
+  <div class="field">
+    <%= f.label :interlude_per_turn %><br />
+    <%= f.time_select :interlude_per_turn %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

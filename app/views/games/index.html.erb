@@ -1,0 +1,35 @@
+<h1>Listing games</h1>
+
+<table>
+  <tr>
+    <th>Time per turn</th>
+    <th>Timebank per player</th>
+    <th>Game time</th>
+    <th>Turn number</th>
+    <th>Round number</th>
+    <th>Interlude per turn</th>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @games.each do |game| %>
+  <tr>
+    <td><%= game.time_per_turn %></td>
+    <td><%= game.timebank_per_player %></td>
+    <td><%= game.game_time %></td>
+    <td><%= game.turn_number %></td>
+    <td><%= game.round_number %></td>
+    <td><%= game.interlude_per_turn %></td>
+    <td><%= game.name %></td>
+    <td><%= link_to 'Show', game %></td>
+    <td><%= link_to 'Edit', edit_game_path(game) %></td>
+    <td><%= link_to 'Destroy', game, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Game', new_game_path %>

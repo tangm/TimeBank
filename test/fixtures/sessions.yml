@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  player_id: 1
+  game_id: 1
+  turn_number: 1
+  round_number: 1
+  turn_time: 2011-12-18 16:32:03
+  time_bank: 2011-12-18 16:32:03
+  time_taken_so_far: 2011-12-18 16:32:03
+  turn_order: 1
+
+two:
+  player_id: 1
+  game_id: 1
+  turn_number: 1
+  round_number: 1
+  turn_time: 2011-12-18 16:32:03
+  time_bank: 2011-12-18 16:32:03
+  time_taken_so_far: 2011-12-18 16:32:03
+  turn_order: 1

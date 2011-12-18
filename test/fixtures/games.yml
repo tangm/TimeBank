@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  time_per_turn: 2011-12-18 16:30:55
+  timebank_per_player: 2011-12-18 16:30:55
+  game_time: 2011-12-18 16:30:55
+  turn_number: 1
+  round_number: 1
+  interlude_per_turn: 2011-12-18 16:30:55
+  name: MyString
+
+two:
+  time_per_turn: 2011-12-18 16:30:55
+  timebank_per_player: 2011-12-18 16:30:55
+  game_time: 2011-12-18 16:30:55
+  turn_number: 1
+  round_number: 1
+  interlude_per_turn: 2011-12-18 16:30:55
+  name: MyString

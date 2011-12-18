@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Time per turn:</b>
+  <%= @game.time_per_turn %>
+</p>
+
+<p>
+  <b>Timebank per player:</b>
+  <%= @game.timebank_per_player %>
+</p>
+
+<p>
+  <b>Game time:</b>
+  <%= @game.game_time %>
+</p>
+
+<p>
+  <b>Turn number:</b>
+  <%= @game.turn_number %>
+</p>
+
+<p>
+  <b>Round number:</b>
+  <%= @game.round_number %>
+</p>
+
+<p>
+  <b>Interlude per turn:</b>
+  <%= @game.interlude_per_turn %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @game.name %>
+</p>
+
+
+<%= link_to 'Edit', edit_game_path(@game) %> |
+<%= link_to 'Back', games_path %>
