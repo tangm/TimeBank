@@ -1,9 +1,14 @@
 TimeBank::Application.routes.draw do
+
+  match ':controller(/:action(/:id))'
+  
   resources :game_sessions
 
   resources :games
 
   resources :players
+
+  resources :new_game, :timer
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
