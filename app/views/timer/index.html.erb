@@ -1,18 +1,31 @@
 <%= javascript_include_tag "timer" %>
 
-<h1>Timer Status: Waiting to start a new round...</h1>
+<h3>Timer Status: </h3>
+<h1 style="font-size:300%;color:blue" ><span id="message">aaa</span></h1>
 
 <table>
-  <tr><th>Game name</th><th><%= @game.name %></th></tr>
-  <tr><th>Started at</th><th><%= @game.created_at.strftime("%d %b %Y, %H:%M:%S") %></th></tr>
+  <tr>
+    <th>Game name</th><th><%= @game.name %></th>
+    <th>Number of players</th><th><span id="number_of_players"><%= @game.number_of_players %></span></th>
+  </tr>
+  <tr>
+    <th>Started at</th><th><%= @game.created_at.strftime("%d %b %Y, %H:%M:%S") %></th>
+    <th>Game time so far</th><th><span id="game_time"><%= @game.game_time.strftime("%H:%M:%S") %></span></th>
+    
+  </tr>
   <tr></tr>
-  <tr><th>Time per turn</th><th><%= @game.time_per_turn.strftime("%M:%S") %></th></tr>
-  <tr><th>Timebank per player</th><th><%= @game.timebank_per_player.strftime("%M:%S") %></th></tr>
-  <tr><th>Interlude per turn</th><th><%= @game.interlude_per_turn.strftime("%M:%S") %></th></tr>
-  <tr></tr>
-  <tr><th>Game time so far</th><th><span id="game_time_text"><%= @game.game_time.strftime("%H:%M:%S") %></span></th></tr>
-  <tr><th>Round number</th><th><%= @game.round_number %></th></tr>
-  <tr><th>Turn number</th><th><%= @game.turn_number %></th></tr>
+  <tr>
+    <th>Time per turn</th><th><%= @game.time_per_turn.strftime("%M:%S") %></th>
+    
+  </tr>
+  <tr>
+    <th>Timebank per player</th><th><%= @game.timebank_per_player.strftime("%M:%S") %></th>
+    <th>Round number</th><th><span id="round_number"><%= @game.round_number %></span></th>
+  </tr>
+  <tr>
+    <th>Interlude per turn</th><th><span id="interlude_per_turn"><%= @game.interlude_per_turn.strftime("%S seconds") %></span></th>
+    <th>Turn number</th><th><span id="turn_number"><%= @game.turn_number %></span></th>
+  </tr>
 </table>
 
 <h2>Players</h2>
@@ -28,10 +41,10 @@
 <% @game_sessions.each do |game_session| %>
   <tr>
     <td><%= game_session.turn_order + 1 %></td>
-    <td><%= game_session.player.name %></td>
-    <td><%= game_session.turn_time.strftime("%M:%S") %></td>
-    <td><%= game_session.time_bank.strftime("%M:%S") %></td>
-    <td><%= game_session.time_taken_so_far.strftime("%H:%M:%S") %></td>
+    <td><span id="player_name_<%= game_session.turn_order + 1 %>"><%= game_session.player.name %></span></td>
+    <td><span id="player_turn_time_<%= game_session.turn_order + 1 %>"><%= game_session.turn_time.strftime("%M:%S") %></span></td>
+    <td><span id="player_time_bank_<%= game_session.turn_order + 1 %>"><%= game_session.time_bank.strftime("%M:%S") %></span></td>
+    <td><span id="player_time_taken_so_far_<%= game_session.turn_order + 1 %>"><%= game_session.time_taken_so_far.strftime("%H:%M:%S") %></span></td>
   </tr>
 <% end %>
 </table>
@@ -41,6 +54,14 @@
   <tr>
     <td><%= button_to_function "Start round", "startRound()" %></td>
     <td><%= button_to_function "End game", "endGame()" %></td>
+  </tr>
+</table>
+
+<h2>Actions</h2>
+<table>
+  <tr>
+    <td><%= button_to_function "Next", "nextPlayer()" %></td>
+    <td><%= button_to_function "Pause", "pauseGame()" %></td>
   </tr>
 </table>
 

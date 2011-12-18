@@ -6,8 +6,7 @@ class NewGameController < ApplicationController
   
   def create_game
     @game = Game.new(params[:game])
-    number_of_players = params[:number_of_players]
-
+    
     if @game.save
       redirect_to :action => "new_players",:game_id => @game.id, :number_of_players => params[:number_of_players]
     else
@@ -17,21 +16,19 @@ class NewGameController < ApplicationController
 
   def new_players
     @game = Game.find(params[:game_id])
-    @number_of_players = params[:number_of_players].to_i
     @players = Array.new
-    @number_of_players.times do |i|
+    @game.number_of_players.times do |i|
       @players[i] = Player.new
     end
   end
 
   def create_game_sessions
     @game = Game.find(params[:game_id])
-    @number_of_players = params[:number_of_players].to_i
     
     @players = Array.new
     @game_sessions = Array.new
 
-    @number_of_players.times do |i|
+    @game.number_of_players.times do |i|
       @players[i] = Player.new(params[:players][i.to_s])
       @players[i].save
       
