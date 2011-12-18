@@ -1,34 +1,35 @@
 <h1>New Game session</h1>
 
-<%= form_for(@game) do |f| %>
-  <% if @game.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@game.errors.count, "error") %> prohibited this game from being saved:</h2>
+<%= form_tag({:action => :create_game},:method => "post") do %>
+  <div class="field">
+    <%= label_tag "Name" %><br />
+    <%= text_field_tag "game[name]", "Caylus @ m&m" %>
+  </div>
+  <div class="field">
+    <%= label_tag @game.time_per_turn, "Time per turn" %><br />
+    <%= time_select "game", "time_per_turn",
+        :include_seconds => true,
+        :prompt => {:hour => 'Choose hour',:minute => 'Choose minute',:second => 'Choose seconds'} %>
+  </div>
+  <div class="field">
+    <%= label_tag @game.timebank_per_player, "Timebank per player" %><br />
+    <%= time_select "game", "timebank_per_player",
+        :include_seconds => true,
+        :prompt => {:hour => 'Choose hour',:minute => 'Choose minute', :second => 'Choose seconds'} %>
+  </div>
+  <div class="field">
+    <%= label_tag @game.interlude_per_turn, "Interlude per turn" %><br />
+    <%= time_select "game", "interlude_per_turn",
+      :include_seconds => true,
+      :prompt => {:hour => 'Choose hour',:minute => 'Choose minute', :second => 'Choose seconds'} %>
+  </div>
 
-      <ul>
-      <% @game.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
   <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
+    <%= label_tag "Number of players" %><br />
+    <%= text_field_tag "number_of_players","4" %>
   </div>
-  <div class="field">
-    <%= f.label :time_per_turn %><br />
-    <%= f.time_select :time_per_turn %>
-  </div>
-  <div class="field">
-    <%= f.label :timebank_per_player %><br />
-    <%= f.time_select :timebank_per_player %>
-  </div>
-  <div class="field">
-    <%= f.label :interlude_per_turn %><br />
-    <%= f.time_select :interlude_per_turn %>
-  </div>
+
   <div class="actions">
-    <%= f.submit %>
+    <%= submit_tag "Create new game" %>
   </div>
 <% end %>

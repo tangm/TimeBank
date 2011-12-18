@@ -1,11 +1,71 @@
 class NewGameController < ApplicationController
 
   def index
-    @game = Game.new(params[:game])
+    print "index print ============================"
+    @game = Game.new
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @game }
+#    respond_to do |format|
+#      format.html # new.html.erb
+#      format.xml  { render :xml => @game }
+#    end
+  end
+  
+  def create_game
+    @game = Game.new(params[:game])
+    number_of_players = params[:number_of_players]
+
+    if @game.save
+      redirect_to :action => "new_players",:game_id => @game.id, :number_of_players => params[:number_of_players]
+    else
+      redirect_to :action => "index"
     end
+#    respond_to do |format|
+#      if @game.save
+#        format.html { redirect_to(:controller => :timer, :action => "index",
+#                                  :notice => 'Game was successfully created.',
+#                                  :game_id => @game.id) }
+#        format.xml  { render :xml => @game, :status => :created, :location => "timer#index" }
+#      else
+#        format.html { render :action => "new" } # TODO: fix when not working
+#        format.xml  { render :xml => @game.errors, :status => :unprocessable_entity }
+#      end
+#    end
+  end
+
+  def new_players
+    @game = Game.find(params[:game_id])
+    @number_of_players = params[:number_of_players].to_i
+    @players = Array.new
+    @number_of_players.times do |i|
+      @players[i] = Player.new
+    end
+#
+#    number_of_players.each do |p|
+#      game_session = GameSession.new(:game => @game)
+#    end
+  end
+
+  def create_game_sessions
+    @game = Game.find(params[:game_id])
+    @number_of_players = params[:number_of_players].to_i
+    
+#    @player_params = params[:players]
+    @players = Array.new
+    @game_sessions = Array.new
+
+    @number_of_players.times do |i|
+#      print "================================================================"
+#      print params[:players[i.to_s][:name]]
+      @players[i] = Player.new(params[:players][i.to_s])
+      @players[i].save
+      
+      @game_sessions[i] = GameSession.new(:game => @game,:player => @players[i],
+        :turn_time =>@game.time_per_turn,:time_bank => @game.timebank_per_player,
+        :time_taken_so_far => "00:00:00",:turn_order=> i)
+      @game_sessions[i].save
+    end
+
+    
+    redirect_to :controller => :timer, :action => :index,:game_id => @game.id
   end
 end
