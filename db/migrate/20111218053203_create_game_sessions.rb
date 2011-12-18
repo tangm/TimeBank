@@ -1,7 +1,7 @@
 class CreateGameSessions < ActiveRecord::Migration
   def self.up
     create_table :game_sessions do |t|
-      t.integer :player_i
+      t.integer :player_id
       t.integer :game_id
       t.integer :turn_number
       t.integer :round_number

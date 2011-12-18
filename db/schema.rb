@@ -13,7 +13,7 @@
 ActiveRecord::Schema.define(:version => 20111218053203) do
 
   create_table "game_sessions", :force => true do |t|
-    t.integer  "player_i"
+    t.integer  "player_id"
     t.integer  "game_id"
     t.integer  "turn_number"
     t.integer  "round_number"
