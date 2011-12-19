@@ -1,16 +1,32 @@
 function updateStats() {
     timeTicks("game_time",1,true);
 
-    turnNumber = document.getElementById("turn_number").innerHTML;
+    turnNumber = document.getElementById("turn_number").value;
     document.getElementById("message").innerHTML =
-        document.getElementById("player_name_"+turnNumber).innerHTML + "'s turn now"
-    timeTicks("player_turn_time_" + turnNumber,-1,false);
+        document.getElementById("player_name_"+turnNumber).value + "'s turn now"
+
+    if (document.getElementById("player_turn_time_" + turnNumber).value === "00:00"
+        && document.getElementById("player_time_bank_" + turnNumber).value === "00:00") {
+        document.getElementById("message").innerHTML = "skipping player "
+            + document.getElementById("player_name_"+turnNumber).value
+            + ", no more time left for this turn";
+        nextPlayer();
+    } else {
+        if (document.getElementById("player_turn_time_" + turnNumber).value === "00:00") {
+            timeTicks("player_time_bank_" + turnNumber,-1,false);
+        } else {
+            timeTicks("player_turn_time_" + turnNumber,-1,false);
+        }
+    }
+
+
+
 //    timeTicks("player_time_bank_" + turnNumber.-1,false);
     timeTicks("player_time_taken_so_far_" + turnNumber,1,true);
 }
 
 function timeTicks(timeId,addSecond,withHour) {
-    timeText = document.getElementById(timeId).innerHTML;
+    timeText = document.getElementById(timeId).value;
 //    console.log ("withHour: " + withHour);
     if (withHour === true) {
         hour = parseInt(timeText.substr(0,2), 10);
@@ -35,14 +51,16 @@ function timeTicks(timeId,addSecond,withHour) {
             minute = 0;
         }
     } else if (addSecond === -1) {
+//        console.log(timeId+" top hour:" + hour + ", minute:" + minute + ", seconds:" + second);
         if (second === -1) {
             minute -= 1;
             second = 59;
         }
-        if (minute === 60) {
+        if (minute === -1) {
             hour -= 1;
             minute = 59;
         }
+        
     }
 
     if (second < 10) {
@@ -63,23 +81,23 @@ function timeTicks(timeId,addSecond,withHour) {
 //    console.log("seconds: " + second);
 
     if (withHour === true) {
-        document.getElementById(timeId).innerHTML = hourPadding + hour + ":"
+        document.getElementById(timeId).value = hourPadding + hour + ":"
             + minutePadding + minute + ":"
             + secondPadding + second;
     } else {
-        document.getElementById(timeId).innerHTML = minutePadding + minute + ":"
+        document.getElementById(timeId).value = minutePadding + minute + ":"
             + secondPadding + second;
     }
 
-//    console.log("Result is " + document.getElementById("game_time_text").innerHTML);
+//    console.log("Result is " + document.getElementById("game_time_text").value);
 }
 
 var intervalId = 0;
 
 function startRound() {
-    roundNumber = parseInt(document.getElementById("round_number").innerHTML,10);
+    roundNumber = parseInt(document.getElementById("round_number").value,10);
     roundNumber += 1;
-    document.getElementById("round_number").innerHTML = roundNumber;
+    document.getElementById("round_number").value = roundNumber;
 
     doInterludeThenUpdateStats();
 }
@@ -97,20 +115,31 @@ function pauseGame() {
     clearInterval(intervalId);
 }
 
+function resumeGame() {
+    setTimeout("updateStatsInInterval()",interludeTime * 1000);
+}
+
+function endGame() {
+    document.getElementById("turn_number").value = "-1"
+    document.getElementById("form_timer").submit();
+}
+
 function nextPlayer() {
     clearInterval(intervalId);
-    turnNumber = parseInt(document.getElementById("turn_number").innerHTML,10);
+    turnNumber = parseInt(document.getElementById("turn_number").value,10);
     turnNumber += 1;
 
     numberOfPlayers = parseInt(document.getElementById("number_of_players").innerHTML,10);
 
     if (turnNumber > numberOfPlayers) {
-        document.getElementById("turn_number").innerHTML = 1;
+        document.getElementById("turn_number").value = 1;
         document.getElementById("message").innerHTML = "end of round, press to start next round"
         clearInterval(intervalId);
+        document.getElementById("form_timer").submit();
     } else {
-        document.getElementById("turn_number").innerHTML = turnNumber;
+        document.getElementById("turn_number").value = turnNumber;
 //        document.getElementById("message").innerHTML = ""
         doInterludeThenUpdateStats();
     }
 }
+

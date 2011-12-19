@@ -38,7 +38,6 @@ class NewGameController < ApplicationController
       @game_sessions[i].save
     end
 
-    
     redirect_to :controller => :timer, :action => :index,:game_id => @game.id
   end
 end

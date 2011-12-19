@@ -1,67 +1,71 @@
 <%= javascript_include_tag "timer" %>
 
 <h3>Timer Status: </h3>
-<h1 style="font-size:300%;color:blue" ><span id="message">aaa</span></h1>
+<h1 style="font-size:300%;color:blue" ><span id="message">Round is about to start...</span></h1>
 
-<table>
-  <tr>
-    <th>Game name</th><th><%= @game.name %></th>
-    <th>Number of players</th><th><span id="number_of_players"><%= @game.number_of_players %></span></th>
-  </tr>
-  <tr>
-    <th>Started at</th><th><%= @game.created_at.strftime("%d %b %Y, %H:%M:%S") %></th>
-    <th>Game time so far</th><th><span id="game_time"><%= @game.game_time.strftime("%H:%M:%S") %></span></th>
-    
-  </tr>
-  <tr></tr>
-  <tr>
-    <th>Time per turn</th><th><%= @game.time_per_turn.strftime("%M:%S") %></th>
-    
-  </tr>
-  <tr>
-    <th>Timebank per player</th><th><%= @game.timebank_per_player.strftime("%M:%S") %></th>
-    <th>Round number</th><th><span id="round_number"><%= @game.round_number %></span></th>
-  </tr>
-  <tr>
-    <th>Interlude per turn</th><th><span id="interlude_per_turn"><%= @game.interlude_per_turn.strftime("%S seconds") %></span></th>
-    <th>Turn number</th><th><span id="turn_number"><%= @game.turn_number %></span></th>
-  </tr>
-</table>
+<%= form_tag({:action => :index},:method => "get",:id =>'form_timer') do %>
+  <%= hidden_field_tag 'game_id', @game.id %>
+  <table>
+    <tr>
+      <th>Game name</th><th><%= @game.name %></th>
+      <th>Number of players</th><th><span id="number_of_players"><%= @game.number_of_players %></span></th>
+    </tr>
+    <tr>
+      <th>Started at</th><th><%= @game.created_at.strftime("%d %b %Y, %H:%M:%S") %></th>
+      <th>Game time so far</th><th><%= text_field_tag "game_time", @game.game_time.strftime("%H:%M:%S") %></th>
 
-<h2>Players</h2>
-<table>
-  <tr>
-    <th>Turn order</th>
-    <th>Name</th>
-    <th>Time left for the turn</th>
-    <th>Time bank left</th>
-    <th>Time taken so far</th>
-  </tr>
+    </tr>
+    <tr></tr>
+    <tr>
+      <th>Time per turn</th><th><%= @game.time_per_turn.strftime("%M:%S") %></th>
 
-<% @game_sessions.each do |game_session| %>
-  <tr>
-    <td><%= game_session.turn_order + 1 %></td>
-    <td><span id="player_name_<%= game_session.turn_order + 1 %>"><%= game_session.player.name %></span></td>
-    <td><span id="player_turn_time_<%= game_session.turn_order + 1 %>"><%= game_session.turn_time.strftime("%M:%S") %></span></td>
-    <td><span id="player_time_bank_<%= game_session.turn_order + 1 %>"><%= game_session.time_bank.strftime("%M:%S") %></span></td>
-    <td><span id="player_time_taken_so_far_<%= game_session.turn_order + 1 %>"><%= game_session.time_taken_so_far.strftime("%H:%M:%S") %></span></td>
-  </tr>
+    </tr>
+    <tr>
+      <th>Timebank per player</th><th><%= @game.timebank_per_player.strftime("%M:%S") %></th>
+      <th>Round number</th><th><%= text_field_tag "round_number", @game.round_number %></th>
+    </tr>
+    <tr>
+      <th>Interlude per turn</th><th><span id="interlude_per_turn"><%= @game.interlude_per_turn.strftime("%S seconds") %></span></th>
+      <th>Turn number</th><th><%= text_field_tag "turn_number", @game.turn_number %></th>
+    </tr>
+  </table>
+
+  <h2>Players</h2>
+  <table>
+    <tr>
+      <th>Turn order</th>
+      <th>Name</th>
+      <th>Time left for the turn</th>
+      <th>Time bank left</th>
+      <th>Time taken so far</th>
+    </tr>
+
+  <% @game_sessions.each do |game_session| %>
+    <tr>
+      <td><%= game_session.turn_order + 1 %></td>
+      <td><%= text_field_tag "player_name_"+(game_session.turn_order + 1).to_s, game_session.player.name %></td>
+      <td><%= text_field_tag "player_turn_time_"+(game_session.turn_order + 1).to_s, game_session.turn_time.strftime("%M:%S") %></td>
+      <td><%= text_field_tag "player_time_bank_"+(game_session.turn_order + 1).to_s, game_session.time_bank.strftime("%M:%S") %></td>
+      <td><%= text_field_tag "player_time_taken_so_far_"+(game_session.turn_order + 1).to_s, game_session.time_taken_so_far.strftime("%H:%M:%S") %></td>
+      <%= hidden_field_tag "player_id_"+(game_session.turn_order + 1).to_s, game_session.player.id %>
+    </tr>
+  <% end %>
+  </table>
+
+  <h2>Actions</h2>
+  <table>
+    <tr>
+      <td><%= button_to_function "Start round", "startRound()" %></td>
+      <td><%= button_to_function "End game", "endGame()" %></td>
+    </tr>
+  </table>
+
+  <h2>Actions</h2>
+  <table>
+    <tr>
+      <td><%= button_to_function "Next", "nextPlayer()" %></td>
+      <td><%= button_to_function "Pause", "pauseGame()" %></td>
+    </tr>
+  </table>
+
 <% end %>
-</table>
-
-<h2>Actions</h2>
-<table>
-  <tr>
-    <td><%= button_to_function "Start round", "startRound()" %></td>
-    <td><%= button_to_function "End game", "endGame()" %></td>
-  </tr>
-</table>
-
-<h2>Actions</h2>
-<table>
-  <tr>
-    <td><%= button_to_function "Next", "nextPlayer()" %></td>
-    <td><%= button_to_function "Pause", "pauseGame()" %></td>
-  </tr>
-</table>
-

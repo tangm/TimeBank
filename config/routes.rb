@@ -1,11 +1,12 @@
 TimeBank::Application.routes.draw do
 
+  resources :games
+
   match ':controller(/:action(/:id))'
   
   resources :game_sessions
 
-  resources :games
-
+  
   resources :players
 
   resources :new_game, :timer
