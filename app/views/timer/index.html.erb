@@ -55,16 +55,16 @@
   <h2>Actions</h2>
   <table>
     <tr>
-      <td><%= button_to_function "Start round", "startRound()" %></td>
-      <td><%= button_to_function "End game", "endGame()" %></td>
+      <td><%= button_to_function "Start round", "startRound()", {:id => "start_round_button"} %></td>
+      <td><%= button_to_function "Next", "nextPlayer()", {:style => "visibility:hidden", :id => "next_button"} %></td>
+      <td><%= button_to_function "Pause", "pauseGame()", {:style => "visibility:hidden", :id => "pause_button"} %></td>
+      <td><%= button_to_function "Resume", "resumeGame()", {:style => "visibility:hidden", :id => "resume_button"} %></td>
     </tr>
   </table>
-
-  <h2>Actions</h2>
+  <br /><br />
   <table>
     <tr>
-      <td><%= button_to_function "Next", "nextPlayer()" %></td>
-      <td><%= button_to_function "Pause", "pauseGame()" %></td>
+      <td><%= button_to_function "End game", "endGame()" %></td>
     </tr>
   </table>
 

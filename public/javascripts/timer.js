@@ -98,7 +98,9 @@ function startRound() {
     roundNumber = parseInt(document.getElementById("round_number").value,10);
     roundNumber += 1;
     document.getElementById("round_number").value = roundNumber;
-
+    document.getElementById("start_round_button").style.visibility = "hidden";
+    document.getElementById("next_button").style.visibility = "visible";
+    document.getElementById("pause_button").style.visibility = "visible";
     doInterludeThenUpdateStats();
 }
 
@@ -113,10 +115,14 @@ function updateStatsInInterval() {
 }
 function pauseGame() {
     clearInterval(intervalId);
+    document.getElementById("pause_button").style.visibility = "hidden";
+    document.getElementById("resume_button").style.visibility = "visible";
 }
 
 function resumeGame() {
-    setTimeout("updateStatsInInterval()",interludeTime * 1000);
+    setTimeout("updateStatsInInterval()", 1000);
+    document.getElementById("pause_button").style.visibility = "visible";
+    document.getElementById("resume_button").style.visibility = "hidden";
 }
 
 function endGame() {
@@ -126,15 +132,19 @@ function endGame() {
 
 function nextPlayer() {
     clearInterval(intervalId);
+
     turnNumber = parseInt(document.getElementById("turn_number").value,10);
     turnNumber += 1;
 
     numberOfPlayers = parseInt(document.getElementById("number_of_players").innerHTML,10);
 
     if (turnNumber > numberOfPlayers) {
+        clearInterval(intervalId);
         document.getElementById("turn_number").value = 1;
         document.getElementById("message").innerHTML = "end of round, press to start next round"
-        clearInterval(intervalId);
+        document.getElementById("start_round_button").style.visibility = "visible";
+        document.getElementById("next_button").style.visibility = "hidden";
+        document.getElementById("pause_button").style.visibility = "hidden";
         document.getElementById("form_timer").submit();
     } else {
         document.getElementById("turn_number").value = turnNumber;
