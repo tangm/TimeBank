@@ -9,7 +9,7 @@ class CreateGames < ActiveRecord::Migration
       t.time :interlude_per_turn, :default => "00:00:03"
       t.integer :number_of_players
       t.string :name
-      t.timestamps :ended_at, :default => nil
+      t.datetime :ended_at, :default => nil
 
       t.timestamps
     end

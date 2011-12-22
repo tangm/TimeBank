@@ -19,6 +19,9 @@ class TimerController < ApplicationController
       end
 
       if params["turn_number"] == "-1" #end game triggered
+        @game.ended_at = Time.now
+        @game.save
+        
         redirect_to @game
 #        redirect_to :controller=>:game,:game_id => @game.id, :number_of_players => params[:number_of_players]
       end

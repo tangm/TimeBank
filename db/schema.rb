@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20111218053203) do
     t.time     "interlude_per_turn",  :default => '2000-01-01 00:00:03'
     t.integer  "number_of_players"
     t.string   "name"
+    t.datetime "ended_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
