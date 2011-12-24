@@ -1,0 +1,22 @@
+
+<h2>Players</h2>
+<table>
+  <tr>
+    <th>Turn order</th>
+    <th>Name</th>
+    <th>Time left for the turn</th>
+    <th>Time bank left</th>
+    <th>Time taken so far</th>
+  </tr>
+
+  <% @game_sessions.each do |game_session| %>
+    <tr>
+      <td><%= game_session.turn_order + 1 %></td>
+      <td><%= text_field_tag "player_name_"+(game_session.turn_order + 1).to_s, game_session.player.name %></td>
+      <td><%= text_field_tag "player_turn_time_"+(game_session.turn_order + 1).to_s, game_session.turn_time.strftime("%M:%S") %></td>
+      <td><%= text_field_tag "player_time_bank_"+(game_session.turn_order + 1).to_s, game_session.time_bank.strftime("%M:%S") %></td>
+      <td><%= text_field_tag "player_time_taken_so_far_"+(game_session.turn_order + 1).to_s, game_session.time_taken_so_far.strftime("%H:%M:%S") %></td>
+      <%= hidden_field_tag "player_id_"+(game_session.turn_order + 1).to_s, game_session.player.id %>
+    </tr>
+  <% end %>
+</table>

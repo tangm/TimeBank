@@ -1,9 +1,13 @@
-<%= javascript_include_tag "timer" %>
+<% content_for(:head) do %>
+  <%= javascript_include_tag "timer" %>
+<% end %>
+
 
 <h3>Timer Status: </h3>
 <h1 style="font-size:300%;color:blue" ><span id="message">Round is about to start...</span></h1>
 
 <%= form_tag({:action => :index},:method => "get",:id =>'form_timer') do %>
+  <td><%= button_to_function "Dialog popout", "endGame()" %></td>
   <%= hidden_field_tag 'game_id', @game.id %>
   <table>
     <tr>
@@ -29,28 +33,9 @@
       <th>Turn number</th><th><%= text_field_tag "turn_number", @game.turn_number %></th>
     </tr>
   </table>
-
-  <h2>Players</h2>
-  <table>
-    <tr>
-      <th>Turn order</th>
-      <th>Name</th>
-      <th>Time left for the turn</th>
-      <th>Time bank left</th>
-      <th>Time taken so far</th>
-    </tr>
-
-    <% @game_sessions.each do |game_session| %>
-      <tr>
-        <td><%= game_session.turn_order + 1 %></td>
-        <td><%= text_field_tag "player_name_"+(game_session.turn_order + 1).to_s, game_session.player.name %></td>
-        <td><%= text_field_tag "player_turn_time_"+(game_session.turn_order + 1).to_s, game_session.turn_time.strftime("%M:%S") %></td>
-        <td><%= text_field_tag "player_time_bank_"+(game_session.turn_order + 1).to_s, game_session.time_bank.strftime("%M:%S") %></td>
-        <td><%= text_field_tag "player_time_taken_so_far_"+(game_session.turn_order + 1).to_s, game_session.time_taken_so_far.strftime("%H:%M:%S") %></td>
-        <%= hidden_field_tag "player_id_"+(game_session.turn_order + 1).to_s, game_session.player.id %>
-      </tr>
-    <% end %>
-  </table>
+  <div id="player_area">
+    <%= render 'players' %>
+  </div>
 
   <h2>Actions</h2>
   <table>
@@ -65,9 +50,32 @@
   <table>
     <tr>
       <td><%= button_to_function "End game", "endGame()" %></td>
-      <td><%= submit_tag "Change turn order" %></td>
     </tr>
   </table>
-
 <% end %>
 
+<button id ="change_turn_order_button">Change Turn Order popout</button><br/>
+<div id="change_turn_order_dialog" title="Change turn order">
+  <%= form_tag({:action => :change_turn_order},:method => "get",:id =>'form_change_turn_order', :remote=>true) do %>
+    <%= hidden_field_tag 'game_id', @game.id %>
+    <table>
+      <tr>
+        <th>Current turn order</th>
+        <th>Name</th>
+        <th>New turn order</th>
+      </tr>
+
+      <% @game_sessions.each do |game_session| %>
+        <tr>
+          <td><%= label "turn_order", game_session.turn_order + 1 %></td>
+          <td><%= label "player_name_"+(game_session.turn_order + 1).to_s, game_session.player.name %></td>
+          <td><%= select "player_new_turn_order_"+(game_session.turn_order + 1).to_s, (game_session.turn_order + 1).to_s,
+              Hash[(1..(@game.number_of_players)).map { |num| [num, "#{num}"] }],
+              :selected => game_session.turn_order+1 %></td>
+          <%= hidden_field_tag "player_id_"+(game_session.turn_order + 1).to_s, game_session.player.id %>
+        </tr>
+      <% end %>
+    </table>
+    <%= submit_tag "Change" %>
+  <% end %>
+</div>

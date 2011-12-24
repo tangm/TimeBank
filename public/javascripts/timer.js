@@ -1,15 +1,16 @@
+
 function updateStats() {
     timeTicks("game_time",1,true);
 
     turnNumber = document.getElementById("turn_number").value;
     document.getElementById("message").innerHTML =
-        document.getElementById("player_name_"+turnNumber).value + "'s turn now"
+    document.getElementById("player_name_"+turnNumber).value + "'s turn now"
 
     if (document.getElementById("player_turn_time_" + turnNumber).value === "00:00"
         && document.getElementById("player_time_bank_" + turnNumber).value === "00:00") {
         document.getElementById("message").innerHTML = "skipping player "
-            + document.getElementById("player_name_"+turnNumber).value
-            + ", no more time left for this turn";
+        + document.getElementById("player_name_"+turnNumber).value
+        + ", no more time left for this turn";
         nextPlayer();
     } else {
         if (document.getElementById("player_turn_time_" + turnNumber).value === "00:00") {
@@ -21,13 +22,13 @@ function updateStats() {
 
 
 
-//    timeTicks("player_time_bank_" + turnNumber.-1,false);
+    //    timeTicks("player_time_bank_" + turnNumber.-1,false);
     timeTicks("player_time_taken_so_far_" + turnNumber,1,true);
 }
 
 function timeTicks(timeId,addSecond,withHour) {
     timeText = document.getElementById(timeId).value;
-//    console.log ("withHour: " + withHour);
+    //    console.log ("withHour: " + withHour);
     if (withHour === true) {
         hour = parseInt(timeText.substr(0,2), 10);
         minute = parseInt(timeText.substr(3,2), 10);
@@ -37,8 +38,8 @@ function timeTicks(timeId,addSecond,withHour) {
         minute = parseInt(timeText.substr(0,2), 10);
         second = parseInt(timeText.substr(3,2), 10);
     }
-//    console.log("hour:" + timeText.substr(0,2) + ", minute:" + timeText.substr(3,2) + ", seconds:" + timeText.substr(6,2));
-//    console.log("hour:" + hour + ", minute:" + minute + ", seconds:" + second);
+    //    console.log("hour:" + timeText.substr(0,2) + ", minute:" + timeText.substr(3,2) + ", seconds:" + timeText.substr(6,2));
+    //    console.log("hour:" + hour + ", minute:" + minute + ", seconds:" + second);
     second += addSecond;
 
     if (addSecond === 1) {
@@ -51,7 +52,7 @@ function timeTicks(timeId,addSecond,withHour) {
             minute = 0;
         }
     } else if (addSecond === -1) {
-//        console.log(timeId+" top hour:" + hour + ", minute:" + minute + ", seconds:" + second);
+        //        console.log(timeId+" top hour:" + hour + ", minute:" + minute + ", seconds:" + second);
         if (second === -1) {
             minute -= 1;
             second = 59;
@@ -78,15 +79,15 @@ function timeTicks(timeId,addSecond,withHour) {
     } else {
         hourPadding = "";
     }
-//    console.log("seconds: " + second);
+    //    console.log("seconds: " + second);
 
     if (withHour === true) {
         document.getElementById(timeId).value = hourPadding + hour + ":"
-            + minutePadding + minute + ":"
-            + secondPadding + second;
+        + minutePadding + minute + ":"
+        + secondPadding + second;
     } else {
         document.getElementById(timeId).value = minutePadding + minute + ":"
-            + secondPadding + second;
+        + secondPadding + second;
     }
 
 //    console.log("Result is " + document.getElementById("game_time_text").value);
@@ -148,8 +149,18 @@ function nextPlayer() {
         document.getElementById("form_timer").submit();
     } else {
         document.getElementById("turn_number").value = turnNumber;
-//        document.getElementById("message").innerHTML = ""
+        //        document.getElementById("message").innerHTML = ""
         doInterludeThenUpdateStats();
     }
 }
 
+$(function() {
+    $( "#change_turn_order_dialog" ).dialog({
+        autoOpen: false,
+        modal: true
+    });
+    $( "#change_turn_order_button" )
+    .click(function() {
+        $( "#change_turn_order_dialog" ).dialog( "open" );
+    });
+});
