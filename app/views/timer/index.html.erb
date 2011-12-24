@@ -8,7 +8,6 @@
 <h3>Timer Status: </h3>
 <h1 style="font-size:300%;color:blue" ><span id="message">Round is about to start...</span></h1>
 <%= form_tag({:action => :index},:method => "get",:id =>'form_timer', :remote=>true) do %>
-  <td><%= button_to_function "Dialog popout", "endGame()" %></td>
   <%= hidden_field_tag 'game_id', @game.id %>
   <table>
     <tr>
