@@ -163,4 +163,19 @@ $(function() {
     .click(function() {
         $( "#change_turn_order_dialog" ).dialog( "open" );
     });
+
+    $( "#player_sortable" ).sortable({
+        placeholder: "ui-state-highlight",
+        opacity: 0.6,
+        stop: function(event, ui) {
+            var orders = $('#player_sortable').sortable('toArray');
+            $.each(orders, function(i,order){
+                 $('<input />').attr('type', 'hidden')
+                .attr('name', order)
+                .attr('value', i+1)
+                .appendTo('#form_change_turn_order');
+            });
+            $("#form_change_turn_order").submit();
+        }
+    });
 });

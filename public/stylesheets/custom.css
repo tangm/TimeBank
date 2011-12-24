@@ -94,3 +94,8 @@ footer {
 footer nav {
     float: none;
 }
+
+/* sortable list */
+.ui-state-highlight {
+    height: 1.5em; line-height: 1.2em;
+}

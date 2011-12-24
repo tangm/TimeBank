@@ -35,10 +35,11 @@ class TimerController < ApplicationController
     @game = Game.find(params[:game_id])
     @game_sessions = GameSession.where(:game_id => params[:game_id])
 
+
     @game.number_of_players.times do |i|
       turn_order = @game_sessions[i].turn_order
 
-      @game_sessions[i].turn_order = ((params["player_new_turn_order_"+(turn_order+1).to_s].values.first).to_i-1)
+      @game_sessions[i].turn_order = ((params["player_new_turn_order_"+(turn_order+1).to_s]).to_i-1)
       @game_sessions[i].save
     end
 
