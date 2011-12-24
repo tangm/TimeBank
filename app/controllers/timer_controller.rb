@@ -17,16 +17,33 @@ class TimerController < ApplicationController
         @game_sessions[i].time_taken_so_far = params["player_time_taken_so_far_"+(turn_order+1).to_s]
         @game_sessions[i].save
       end
-      if params["commit"] == "Change turn order"
-        redirect_to :controller=>:switch_players,:game_id => @game.id
-      end
+      if params["commit"] == "change_turn_order"
+        print "insider change turn order==============================="
+        @game.number_of_players.times do |i|
+          turn_order = @game_sessions[i].turn_order
 
-      if params["turn_number"] == "-1" #end game triggered
+          @game_sessions[i].turn_order = ((params["player_new_turn_order_"+(turn_order+1).to_s]).to_i-1)
+          @game_sessions[i].save
+        end
+
+        @game_sessions = GameSession.where(:game_id => params[:game_id]).order :turn_order
+
+        respond_to do |format|
+          format.html { redirect_to :action =>:index,:game_id => params[:game_id] }
+          format.js
+        end
+
+      elsif params["turn_number"] == "-1" #end game triggered
         @game.ended_at = Time.now
         @game.save
         
         redirect_to @game
-#        redirect_to :controller=>:game,:game_id => @game.id, :number_of_players => params[:number_of_players]
+      else
+        print "insider else ==============================="
+        respond_to do |format|
+          format.html { redirect_to :action =>:index,:game_id => params[:game_id] }
+          format.js
+        end
       end
     end
   end
@@ -36,19 +53,7 @@ class TimerController < ApplicationController
     @game_sessions = GameSession.where(:game_id => params[:game_id])
 
 
-    @game.number_of_players.times do |i|
-      turn_order = @game_sessions[i].turn_order
-
-      @game_sessions[i].turn_order = ((params["player_new_turn_order_"+(turn_order+1).to_s]).to_i-1)
-      @game_sessions[i].save
-    end
-
-    @game_sessions = GameSession.where(:game_id => params[:game_id]).order :turn_order
     
-    respond_to do |format|
-      format.html { redirect_to :action =>:index,:game_id => params[:game_id] }
-      format.js
-    end
   end
 
 end

@@ -108,7 +108,7 @@ function startRound() {
 function doInterludeThenUpdateStats() {
     interludeTime = parseInt(document.getElementById("interlude_per_turn").innerHTML.substr(0,2),10);
     document.getElementById("message").innerHTML = "Interlude time " + document.getElementById("interlude_per_turn").innerHTML;
-    setTimeout("updateStatsInInterval()",interludeTime * 1000);
+    intervalId = setTimeout("updateStatsInInterval()",interludeTime * 1000);
 }
 
 function updateStatsInInterval() {
@@ -121,7 +121,7 @@ function pauseGame() {
 }
 
 function resumeGame() {
-    setTimeout("updateStatsInInterval()", 1000);
+    intervalId = setTimeout("updateStatsInInterval()", 1000);
     document.getElementById("pause_button").style.visibility = "visible";
     document.getElementById("resume_button").style.visibility = "hidden";
 }
@@ -140,13 +140,13 @@ function nextPlayer() {
     numberOfPlayers = parseInt(document.getElementById("number_of_players").innerHTML,10);
 
     if (turnNumber > numberOfPlayers) {
-        clearInterval(intervalId);
         document.getElementById("turn_number").value = 1;
         document.getElementById("message").innerHTML = "end of round, press to start next round"
         document.getElementById("start_round_button").style.visibility = "visible";
         document.getElementById("next_button").style.visibility = "hidden";
         document.getElementById("pause_button").style.visibility = "hidden";
-        document.getElementById("form_timer").submit();
+        document.getElementById("resume_button").style.visibility = "hidden";
+        $("#form_timer").submit();
     } else {
         document.getElementById("turn_number").value = turnNumber;
         //        document.getElementById("message").innerHTML = ""
@@ -155,10 +155,7 @@ function nextPlayer() {
 }
 
 $(function() {
-    $( "#change_turn_order_dialog" ).dialog({
-        autoOpen: false,
-        modal: true
-    });
+
     $( "#change_turn_order_button" )
     .click(function() {
         $( "#change_turn_order_dialog" ).dialog( "open" );
@@ -167,15 +164,18 @@ $(function() {
     $( "#player_sortable" ).sortable({
         placeholder: "ui-state-highlight",
         opacity: 0.6,
-        stop: function(event, ui) {
+        stop: function(event, ui) { 
+            //            alert ("sortable inside!");
             var orders = $('#player_sortable').sortable('toArray');
             $.each(orders, function(i,order){
-                 $('<input />').attr('type', 'hidden')
+                $('<input />').attr('type', 'hidden')
                 .attr('name', order)
                 .attr('value', i+1)
-                .appendTo('#form_change_turn_order');
+                .appendTo('#form_timer');
             });
-            $("#form_change_turn_order").submit();
+            var input = $("<input>").attr("type", "hidden").attr("name", "commit").val("change_turn_order");
+            $('#form_timer').append($(input));
+            $("#form_timer").submit();
         }
     });
 });
