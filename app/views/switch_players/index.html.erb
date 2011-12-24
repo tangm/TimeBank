@@ -1,0 +1,23 @@
+<h2>Change Player Turn Orders</h2>
+<%= form_tag({:action => :change},:method => "post") do %>
+  <%= hidden_field_tag 'game_id', @game.id %>
+  <table>
+    <tr>
+      <th>Current turn order</th>
+      <th>Name</th>
+      <th>New turn order</th>
+    </tr>
+
+    <% @game_sessions.each do |game_session| %>
+      <tr>
+        <td><%= label "turn_order", game_session.turn_order + 1 %></td>
+        <td><%= label "player_name_"+(game_session.turn_order + 1).to_s, game_session.player.name %></td>
+        <td><%= select "player_new_turn_order_"+(game_session.turn_order + 1).to_s, (game_session.turn_order + 1).to_s,
+                Hash[(1..(@game.number_of_players)).map { |num| [num, "#{num}"] }],
+                :selected => game_session.turn_order+1 %></td>
+        <%= hidden_field_tag "player_id_"+(game_session.turn_order + 1).to_s, game_session.player.id %>
+      </tr>
+    <% end %>
+  </table>
+  <%= submit_tag "Change" %>
+<% end %>
