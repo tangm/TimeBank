@@ -2,19 +2,25 @@
 <html>
   <head>
     <title>TimeBank</title>
-    <%= javascript_include_tag  'touch_ui' %>
-    <%= javascript_include_tag  'jquery.min', 'jquery-ui.min','jquery_ujs' %>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
+    <%= javascript_include_tag "http://code.jquery.com/jquery-1.6.4.min.js" %>
+    <%= javascript_include_tag "http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js" %>
     <%= javascript_include_tag 'application' %>
     <%= csrf_meta_tag %>
     <%= render 'layouts/stylesheets' %>
     <%= yield(:head) %>
   </head>
   <body>
-    <div class="container">
+    <div data-role="page">
       <%= render 'layouts/header' %>
-      <section class="round">
-        <%= yield %>
-      </section>
+      <div data-role="content">
+        <section class="round">
+          <%= yield %>
+        </section>
+      </div>
+      
       <%= render 'layouts/footer' %>
     </div>
   </body>

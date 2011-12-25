@@ -1,0 +1,20 @@
+<%= hidden_field_tag 'game_id', @game.id %>
+
+<% extra_space_needed = @game.number_of_players % 2 == 0? 0 : 1 %>
+<div id="player_sortable" class= <%= "ui-grid-" + ((@game.number_of_players/2+extra_space_needed) + 95).chr %> >
+  <% @game_sessions.each do |game_session| %>
+    <% if (game_session.turn_order+1) %2 == 1 %>
+      <div class=<%= "ui-block-" + (game_session.turn_order/2 + 97).chr %> ui-state-default player-area" id =<%= "player_new_turn_order_" + (game_session.turn_order + 1).to_s %>>
+        <div class="ui-bar ui-bar-c">
+          <h4 class="player-area"><%=  "Turn order \#"+(game_session.turn_order + 1).to_s %></h4>
+          <br/><%= text_field_tag "player_name_"+(game_session.turn_order + 1).to_s, game_session.player.name, :class => "player-area", :disabled => true %>
+          <br/><%= text_field_tag "player_turn_time_"+(game_session.turn_order + 1).to_s, game_session.turn_time.strftime("%M:%S"), :class => "player-area", :disabled => true %>
+          <%= text_field_tag "player_time_bank_"+(game_session.turn_order + 1).to_s, game_session.time_bank.strftime("%M:%S"), :class => "player-area timebank" %>
+          <br/><%= text_field_tag "player_time_taken_so_far_"+(game_session.turn_order + 1).to_s, game_session.time_taken_so_far.strftime("%H:%M:%S"), :class => "player-area", :disabled => true %>
+          <%= hidden_field_tag "player_id_"+(game_session.turn_order + 1).to_s, game_session.player.id %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div><!-- /grid-b -->
+
