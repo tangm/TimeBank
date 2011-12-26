@@ -3,6 +3,7 @@ class TimerController < ApplicationController
   def index
     @game = Game.find(params[:game_id])
     @game_sessions = GameSession.where(:game_id => params[:game_id]).order :turn_order
+    @first_type_descriptions = Game::DESCRIPTIONS.invert
 
     if params["game_time"] then
       @game.game_time = params["game_time"]
@@ -49,7 +50,7 @@ class TimerController < ApplicationController
         
         redirect_to :action =>:index,:game_id => params[:game_id]
 
-#        format.html {  }
+        #        format.html {  }
         
       elsif params["turn_number"] == "-1" #end game triggered
         @game.ended_at = Time.now
@@ -66,6 +67,23 @@ class TimerController < ApplicationController
   def end_game
     @game = Game.find(params[:game_id])
     @game_sessions = GameSession.where(:game_id => params[:game_id])
+  end
+
+  def change_game_settings
+    @first_type_descriptions = Game::DESCRIPTIONS.invert
+    @game = Game.find(params[:game_id])
+    @game.time_per_turn = params["new_time_per_turn"]
+    @game.interlude_per_turn = params["new_interlude_per_turn"]
+    @game.first_type = params["new_first_type"]
+    @game.save
+
+    @game_sessions = GameSession.where(:game_id => params[:game_id]).order :turn_order
+    @game.number_of_players.times do |i|
+      @game_sessions[i].turn_time = @game.time_per_turn
+    end
+
+    render :index
+#    redirect_to :action =>:index,:game_id => params[:game_id]
   end
 
 end

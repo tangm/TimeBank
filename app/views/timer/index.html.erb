@@ -26,19 +26,19 @@
   <div id="player_area_bottom">
     <%= render 'players_bottom' %>
   </div>
-<div data-role="footer">
-  <div data-role="navbar">
-    <ul>
-      <li><a href="#popup" data-rel="dialog" data-transition="flip" id="pause_button">Pause</a></li>
-      <li><a href="a.html" data-rel="dialog" data-transition="flip">Change game settings</a></li>
-      <li><a href="b.html" onclick="endGame()" id="end_game_button">End this game</a></li>
-    </ul>
-  </div><!-- /navbar -->
+  <div data-role="footer">
+    <div data-role="navbar">
+      <ul>
+        <li><a href="#pause_page" data-rel="dialog" data-transition="flip" id="pause_button">Pause</a></li>
+        <li><a href="#game_settings_page" data-rel="dialog" data-transition="flip">Change game settings</a></li>
+        <li><a onclick="endGame()" id="end_game_button">End this game</a></li>
+      </ul>
+    </div><!-- /navbar -->
   </div>
 <% end %>
 
 <% content_for(:additional_pages) do %>
-  <div data-role="page" id="popup">
+  <div data-role="page" id="pause_page">
 
     <div data-role="content" data-theme="d">
       <h2>This game has been paused...</h2>
@@ -46,7 +46,33 @@
     </div><!-- /content -->
 
 
-  </div><!-- /page popup -->
+  </div><!-- /page pause_page -->
+
+  <!-- Start of third page: #popup -->
+  <div data-role="page" id="game_settings_page">
+
+    <div data-role="header" data-theme="e">
+      <h1>Game Settings</h1>
+    </div><!-- /header -->
+    <%= form_tag({:action => :change_game_settings},:method => "post",:id =>'form_game_settings', 'data-ajax' => 'false') do %>
+    <%= hidden_field_tag 'game_id', @game.id %>
+      <div data-role="content" data-theme="d">
+        <h2>Timing</h2>
+          <label for="new_time_per_turn">New turn time per player:</label>
+
+          <%= text_field_tag "new_time_per_turn",@game.time_per_turn.strftime("%H:%M:%S") %>
+        
+        
+          <label for="new_interlude_per_turn">New interlude time per player:</label>
+          <%= text_field_tag "new_interlude_per_turn",@game.interlude_per_turn.strftime("%H:%M:%S") %>
+        
+        <h2>Gameplay</h2>
+          <%= label_tag "Type of first player progression" %><br />
+          <%= select_tag "new_first_type", options_for_select(@first_type_descriptions) %>
+        <p><a href="#main_page" data-role="button" data-inline="true" data-icon="back" id="change_settings_button"">Save & close</a></p>
+      </div><!-- /content -->
+    <% end %>
+  </div><!-- /page game_settings_page -->
 <% end %>
 
 

@@ -6,6 +6,10 @@ $(function() {
     $('#resume_button').click(function(e){
         resumeGame();
     });
+
+    $('#change_settings_button').click(function(e){
+        $("#form_game_settings").submit();
+    });
 });
 
 function updateStats() {
