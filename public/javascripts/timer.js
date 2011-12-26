@@ -1,13 +1,19 @@
 
+$(function() {
+    $('#pause_button').click(function(e){
+        pauseGame();
+    });
+    $('#resume_button').click(function(e){
+        resumeGame();
+    });
+});
+
 function updateStats() {
     timeTicks("game_time",1,true);
 
     turnNumber = document.getElementById("turn_number").value;
     document.getElementById("message").innerHTML =
-        document.getElementById("player_name_"+turnNumber).value + "'s turn now"
-    document.getElementById("message_time").innerHTML =
-        document.getElementById("player_turn_time_" + turnNumber).value +
-        " &nbsp&nbsp&nbsp&nbsp&nbsp with timebank: "+ document.getElementById("player_time_bank_" + turnNumber).value;
+    document.getElementById("player_name_"+turnNumber).value + "'s turn now"
     if (document.getElementById("player_turn_time_" + turnNumber).value === "00:10") {
         document.getElementById("message_time").style.color = "red";
     }
@@ -24,6 +30,10 @@ function updateStats() {
         } else {
             timeTicks("player_turn_time_" + turnNumber,-1,false);
         }
+        document.getElementById("message_time").innerHTML =
+        document.getElementById("player_turn_time_" + turnNumber).value +
+        " &nbsp&nbsp&nbsp&nbsp&nbsp with timebank: "+ document.getElementById("player_time_bank_" + turnNumber).value;
+    
     }
 
 
@@ -127,10 +137,12 @@ function doInterludeThenUpdateStats() {
     turnNumber = document.getElementById("turn_number").value;
     document.getElementById("message").innerHTML = document.getElementById("player_name_"+turnNumber).value + "'s turn is starting in " + document.getElementById("interlude_per_turn").value;
     document.getElementById("message_time").innerHTML = "&nbsp"
+    clearInterval(intervalId);
     intervalId = setTimeout("updateStatsInInterval()",interludeTime * 1000);
 }
 
 function updateStatsInInterval() {
+    clearInterval(intervalId);
     intervalId = setInterval("updateStats()",1000);
 }
 function pauseGame() {
@@ -139,6 +151,7 @@ function pauseGame() {
 }
 
 function resumeGame() {
+    clearInterval(intervalId);
     intervalId = setTimeout("updateStatsInInterval()", 1000);
 
 }
@@ -149,7 +162,6 @@ function endGame() {
 }
 
 function nextPlayer() {
-    clearInterval(intervalId);
 
     turnNumber = parseInt(document.getElementById("turn_number").value,10);
     turnNumber += 1;

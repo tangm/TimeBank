@@ -5,7 +5,7 @@
 
 <%#= image_tag("logo.png", :alt => "Timebank Piggy", :class => "round") %>
 <%= form_tag({:action => :index},:method => "post",:id =>'form_timer', 'data-ajax' => 'false') do %>
-  
+
 
   <div id="player_area_top">
     <%= render 'players_top' %>
@@ -18,7 +18,7 @@
     <%= hidden_field_tag 'round_number', @game.round_number %>
     <%= hidden_field_tag 'turn_number', @game.turn_number %>
     <%= hidden_field_tag 'interlude_per_turn', @game.interlude_per_turn.strftime("%S seconds") %>
-    <h3 class="player-area"><%= @game.name %> (Round #<span id="round_number_display">0</span>)</h3>
+    <h3 class="player-area"><%= @game.name %> (Round #<span id="round_number_display">_</span>)</h3>
     <h1 style="font-size:200%;color:blue" class="player-area" ><span id="message">The next round is about to start...</span></h1>
     <h3  class="player-area"><span id="message_time">hohohoho!</span></h3>
     <button class="ui-btn-hidden" onclick="continue_step();return false" id="continue_button">press to continue</button>
@@ -26,36 +26,28 @@
   <div id="player_area_bottom">
     <%= render 'players_bottom' %>
   </div>
-
-<div data-role="navbar" id="timer_navbar">
+<div data-role="footer">
+  <div data-role="navbar">
     <ul>
-      <li><a href="pause.html" data-rel="dialog" data-transition="flip" class="timer-pause">Pause</a></li>
-      <li><a href="a.html" data-rel="dialog" data-transition="flip" class="timer-change-settings">Change game settings</a></li>
-      <li><a href="b.html" class="timer-end">End Game</a></li>
+      <li><a href="#popup" data-rel="dialog" data-transition="flip" id="pause_button">Pause</a></li>
+      <li><a href="a.html" data-rel="dialog" data-transition="flip">Change game settings</a></li>
+      <li><a href="b.html" onclick="endGame()" id="end_game_button">End this game</a></li>
     </ul>
   </div><!-- /navbar -->
-
-  <h2>Actions</h2>
-  <table>
-    <tr>
-      <td><%= button_to_function "Start round", "startRound()", {:id => "astart_round_button"} %></td>
-      <td><%= button_to_function "Next", "nextPlayer()", {:style => "visibility:hidden", :id => "anext_button",:disable_with => "Please wait..."} %></td>
-      <td><%= button_to_function "Pause", "pauseGame()", {:style => "visibility:hidden", :id => "apause_button"} %></td>
-      <td><%= button_to_function "Resume", "resumeGame()", {:style => "visibility:hidden", :id => "aresume_button"} %></td>
-    </tr>
-  </table>
-  <table>
-    <tr>
-      <td><%= button_to_function "End game", "endGame()" %></td>
-    </tr>
-  </table>
-
-  <%#*<div id="player_area_bottom">%>
-  <%#= render 'players_bottom' %>
-  <%#*</div>%>
-
+  </div>
 <% end %>
 
+<% content_for(:additional_pages) do %>
+  <div data-role="page" id="popup">
+
+    <div data-role="content" data-theme="d">
+      <h2>This game has been paused...</h2>
+      <p><a href="#main_page" data-rel="back" data-role="button" data-inline="true" data-icon="back" id="resume_button">Resume</a></p>
+    </div><!-- /content -->
+
+
+  </div><!-- /page popup -->
+<% end %>
 
 
 

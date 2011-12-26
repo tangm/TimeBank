@@ -55,12 +55,17 @@ class TimerController < ApplicationController
         @game.ended_at = Time.now
         @game.save
         
-        redirect_to @game
+        redirect_to :action =>:end_game,:game_id => params[:game_id]
       else
         print "insider else ==============================="
         redirect_to :action =>:index,:game_id => params[:game_id] 
       end
     end
+  end
+
+  def end_game
+    @game = Game.find(params[:game_id])
+    @game_sessions = GameSession.where(:game_id => params[:game_id])
   end
 
 end
