@@ -18,7 +18,7 @@
     <%= hidden_field_tag 'round_number', @game.round_number %>
     <%= hidden_field_tag 'turn_number', @game.turn_number %>
     <%= hidden_field_tag 'interlude_per_turn', @game.interlude_per_turn.strftime("%S seconds") %>
-    <h3 class="player-area"><%= @game.name %> (Round #<span id="round_number_display">0</span>)</h3>
+    <h3 class="player-area"><%= @game.name %> (Round #<span id="round_number_display">_</span>)</h3>
     <h1 style="font-size:200%;color:blue" class="player-area" ><span id="message">The next round is about to start...</span></h1>
     <h3  class="player-area"><span id="message_time">hohohoho!</span></h3>
     <button class="ui-btn-hidden" onclick="continue_step();return false" id="continue_button">press to continue</button>
@@ -31,7 +31,7 @@
     <ul>
       <li><a href="#popup" data-rel="dialog" data-transition="flip" id="pause_button">Pause</a></li>
       <li><a href="a.html" data-rel="dialog" data-transition="flip">Change game settings</a></li>
-      <li><a href="b.html">End Game</a></li>
+      <li><a href="b.html" onclick="endGame()" id="end_game_button">End this game</a></li>
     </ul>
   </div><!-- /navbar -->
   </div>

@@ -13,10 +13,7 @@ function updateStats() {
 
     turnNumber = document.getElementById("turn_number").value;
     document.getElementById("message").innerHTML =
-        document.getElementById("player_name_"+turnNumber).value + "'s turn now"
-    document.getElementById("message_time").innerHTML =
-        document.getElementById("player_turn_time_" + turnNumber).value +
-        " &nbsp&nbsp&nbsp&nbsp&nbsp with timebank: "+ document.getElementById("player_time_bank_" + turnNumber).value;
+    document.getElementById("player_name_"+turnNumber).value + "'s turn now"
     if (document.getElementById("player_turn_time_" + turnNumber).value === "00:10") {
         document.getElementById("message_time").style.color = "red";
     }
@@ -33,6 +30,10 @@ function updateStats() {
         } else {
             timeTicks("player_turn_time_" + turnNumber,-1,false);
         }
+        document.getElementById("message_time").innerHTML =
+        document.getElementById("player_turn_time_" + turnNumber).value +
+        " &nbsp&nbsp&nbsp&nbsp&nbsp with timebank: "+ document.getElementById("player_time_bank_" + turnNumber).value;
+    
     }
 
 
