@@ -3,8 +3,8 @@
 <% extra_space_needed = @game.number_of_players % 2 == 0? 0 : 1 %>
 <div id="player_sortable" class= <%= "ui-grid-" + ((@game.number_of_players/2+extra_space_needed) + 95).chr %> >
   <% @game_sessions.each do |game_session| %>
-    <% if (game_session.turn_order+1) %2 == 1 %>
-      <div class=<%= "ui-block-" + (game_session.turn_order/2 + 97).chr %> ui-state-default player-area" id =<%= "player_new_turn_order_" + (game_session.turn_order + 1).to_s %>>
+    <% if (game_session.turn_order+1) <= (@game.number_of_players/2+extra_space_needed) %>
+      <div class=<%= "ui-block-" + (game_session.turn_order + 97).chr %> ui-state-default player-area" id =<%= "player_new_turn_order_" + (game_session.turn_order + 1).to_s %>>
         <div class="ui-bar ui-bar-c">
           <h4 class="player-area"><%=  "Turn order \#"+(game_session.turn_order + 1).to_s %></h4>
           <%= text_field_tag "player_name_"+(game_session.turn_order + 1).to_s, game_session.player.name, :class => "player-area", :readonly => true %>

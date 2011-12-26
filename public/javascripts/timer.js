@@ -10,6 +10,10 @@ $(function() {
     $('#change_settings_button').click(function(e){
         $("#form_game_settings").submit();
     });
+    $("body").keydown(function(e){
+        var k = evt ? evt.which : window.event.keyCode;
+        if (k == 32) continue_step();
+    });
 });
 
 function updateStats() {
