@@ -14,7 +14,7 @@ input[readonly='readonly'].player-area {
     background-color:transparent;
     color:inherit;
     display:inline;
-    width: 100px;
+    width: 75px;
 }
 
 input.player-area.timebank {
