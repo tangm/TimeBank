@@ -1,7 +1,7 @@
 <%=  image_tag("logo.png", :size => "354x100") %> 
 <h1>Entering player details</h1>
 
-<%= form_tag({:action => :create_game_sessions},{:method => "post", 'data-ajax'=>"false"}) do %>
+<%= form_tag({:action => :create_game_sessions},{:method => "post", 'data-ajax' => "false"}) do %>
   <% @game.number_of_players.times do |i| %>
     <div class="field">
       <%= label_tag "Player \##{i+1} name " %><br />

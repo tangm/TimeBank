@@ -29,11 +29,8 @@ class TimerController < ApplicationController
 
         @game_sessions = GameSession.where(:game_id => params[:game_id]).order :turn_order
 
-        respond_to do |format|
-          format.html { redirect_to :action =>:index,:game_id => params[:game_id] }
-          format.js
-        end
-
+        format.html { redirect_to :action =>:index,:game_id => params[:game_id] }
+        
       elsif params["turn_number"] == "-1" #end game triggered
         @game.ended_at = Time.now
         @game.save
@@ -41,10 +38,7 @@ class TimerController < ApplicationController
         redirect_to @game
       else
         print "insider else ==============================="
-        respond_to do |format|
-          format.html { redirect_to :action =>:index,:game_id => params[:game_id] }
-          format.js
-        end
+        redirect_to :action =>:index,:game_id => params[:game_id] 
       end
     end
   end
@@ -52,8 +46,6 @@ class TimerController < ApplicationController
   def change_turn_order
     @game = Game.find(params[:game_id])
     @game_sessions = GameSession.where(:game_id => params[:game_id])
-
-
     
   end
 

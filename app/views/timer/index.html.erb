@@ -4,7 +4,7 @@
 <% end %>
 
 <%#= image_tag("logo.png", :alt => "Timebank Piggy", :class => "round") %>
-<%= form_tag({:controller => 'timer',:action => :index},:method => "post",:id =>'form_timer', :remote=>true) do %>
+<%= form_tag({:action => :index},:method => "post",:id =>'form_timer', 'data-ajax' => 'false') do %>
   <div data-role="navbar">
     <ul>
       <li><a href="pause.html" data-rel="dialog" data-transition="flip">Pause</a></li>
