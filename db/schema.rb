@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111218053203) do
+ActiveRecord::Schema.define(:version => 20111226110436) do
 
   create_table "game_sessions", :force => true do |t|
     t.integer  "player_id"
@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(:version => 20111218053203) do
     t.integer  "round_number"
     t.time     "turn_time"
     t.time     "time_bank"
-    t.time     "time_taken_so_far", :default => '2000-01-01 00:00:00'
+    t.time     "time_taken_so_far"
     t.integer  "turn_order"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(:version => 20111218053203) do
     t.datetime "ended_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "first_type",          :default => 0
   end
 
   create_table "players", :force => true do |t|
