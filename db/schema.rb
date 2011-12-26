@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(:version => 20111218053203) do
     t.integer  "round_number"
     t.time     "turn_time"
     t.time     "time_bank"
-    t.time     "time_taken_so_far"
+    t.time     "time_taken_so_far", :default => '2000-01-01 00:00:00'
     t.integer  "turn_order"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(:version => 20111218053203) do
     t.time     "time_per_turn",       :default => '2000-01-01 00:03:00'
     t.time     "timebank_per_player", :default => '2000-01-01 00:10:00'
     t.time     "game_time",           :default => '2000-01-01 00:00:00'
-    t.integer  "turn_number",         :default => 1
+    t.integer  "turn_number",         :default => 0
     t.integer  "round_number",        :default => 0
     t.time     "interlude_per_turn",  :default => '2000-01-01 00:00:03'
     t.integer  "number_of_players"

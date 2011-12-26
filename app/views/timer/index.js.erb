@@ -1,20 +1,5 @@
-$("#player_area").html("<%= escape_javascript(render('players')) %>");
-$( "#player_sortable" ).sortable({
-        placeholder: "ui-state-highlight",
-        opacity: 0.6,
-        stop: function(event, ui) {
-            //            alert ("sortable inside!");
-            var orders = $('#player_sortable').sortable('toArray');
-            $.each(orders, function(i,order){
-                $('<input />').attr('type', 'hidden')
-                .attr('name', order)
-                .attr('value', i+1)
-                .appendTo('#form_timer');
-            });
-            var input = $("<input>").attr("type", "hidden").attr("name", "commit").val("change_turn_order");
-            $('#form_timer').append($(input));
-            $("#form_timer").submit();
-        }
-    });
+$("#player_area_top").html("<%= escape_javascript(render('players_top')) %>");
+$("#player_area_bottom").html("<%= escape_javascript(render('players_bottom')) %>");
+alert('js works!');
 
 

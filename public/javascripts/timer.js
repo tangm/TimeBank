@@ -4,7 +4,13 @@ function updateStats() {
 
     turnNumber = document.getElementById("turn_number").value;
     document.getElementById("message").innerHTML =
-    document.getElementById("player_name_"+turnNumber).value + "'s turn now"
+        document.getElementById("player_name_"+turnNumber).value + "'s turn now"
+    document.getElementById("message_time").innerHTML =
+        document.getElementById("player_turn_time_" + turnNumber).value +
+        " &nbsp&nbsp&nbsp&nbsp&nbsp with timebank: "+ document.getElementById("player_time_bank_" + turnNumber).value;
+    if (document.getElementById("player_turn_time_" + turnNumber).value === "00:10") {
+        document.getElementById("message_time").style.color = "red";
+    }
 
     if (document.getElementById("player_turn_time_" + turnNumber).value === "00:00"
         && document.getElementById("player_time_bank_" + turnNumber).value === "00:00") {
@@ -99,15 +105,27 @@ function startRound() {
     roundNumber = parseInt(document.getElementById("round_number").value,10);
     roundNumber += 1;
     document.getElementById("round_number").value = roundNumber;
-    document.getElementById("start_round_button").style.visibility = "hidden";
-    document.getElementById("next_button").style.visibility = "visible";
-    document.getElementById("pause_button").style.visibility = "visible";
+    document.getElementById("round_number_display").innerHTML = roundNumber;
+    document.getElementById("turn_number").value = 1;
     doInterludeThenUpdateStats();
 }
 
+function continue_step() {
+    document.getElementById("message_time").style.color = "black";
+    turnNumber = parseInt(document.getElementById("turn_number").value,10);
+    if (turnNumber === 0) {
+        startRound();
+    } else {
+        nextPlayer();
+    }
+}
+
 function doInterludeThenUpdateStats() {
-    interludeTime = parseInt(document.getElementById("interlude_per_turn").innerHTML.substr(0,2),10);
-    document.getElementById("message").innerHTML = "Interlude time " + document.getElementById("interlude_per_turn").innerHTML;
+    interludeTime = parseInt(document.getElementById("interlude_per_turn").value.substr(0,2),10);
+    
+    turnNumber = document.getElementById("turn_number").value;
+    document.getElementById("message").innerHTML = document.getElementById("player_name_"+turnNumber).value + "'s turn is starting in " + document.getElementById("interlude_per_turn").value;
+    document.getElementById("message_time").innerHTML = "&nbsp"
     intervalId = setTimeout("updateStatsInInterval()",interludeTime * 1000);
 }
 
@@ -116,19 +134,17 @@ function updateStatsInInterval() {
 }
 function pauseGame() {
     clearInterval(intervalId);
-    document.getElementById("pause_button").style.visibility = "hidden";
-    document.getElementById("resume_button").style.visibility = "visible";
+
 }
 
 function resumeGame() {
     intervalId = setTimeout("updateStatsInInterval()", 1000);
-    document.getElementById("pause_button").style.visibility = "visible";
-    document.getElementById("resume_button").style.visibility = "hidden";
+
 }
 
 function endGame() {
     document.getElementById("turn_number").value = "-1"
-    document.getElementById("form_timer").submit();
+    $("#form_timer").submit();
 }
 
 function nextPlayer() {
@@ -137,15 +153,12 @@ function nextPlayer() {
     turnNumber = parseInt(document.getElementById("turn_number").value,10);
     turnNumber += 1;
 
-    numberOfPlayers = parseInt(document.getElementById("number_of_players").innerHTML,10);
+    numberOfPlayers = parseInt(document.getElementById("number_of_players").value,10);
 
     if (turnNumber > numberOfPlayers) {
-        document.getElementById("turn_number").value = 1;
+        document.getElementById("turn_number").value = 0;
         document.getElementById("message").innerHTML = "end of round, press to start next round"
-        document.getElementById("start_round_button").style.visibility = "visible";
-        document.getElementById("next_button").style.visibility = "hidden";
-        document.getElementById("pause_button").style.visibility = "hidden";
-        document.getElementById("resume_button").style.visibility = "hidden";
+
         $("#form_timer").submit();
     } else {
         document.getElementById("turn_number").value = turnNumber;
@@ -153,29 +166,3 @@ function nextPlayer() {
         doInterludeThenUpdateStats();
     }
 }
-
-$(function() {
-
-    $( "#change_turn_order_button" )
-    .click(function() {
-        $( "#change_turn_order_dialog" ).dialog( "open" );
-    });
-
-    $( "#player_sortable" ).sortable({
-        placeholder: "ui-state-highlight",
-        opacity: 0.6,
-        stop: function(event, ui) { 
-            //            alert ("sortable inside!");
-            var orders = $('#player_sortable').sortable('toArray');
-            $.each(orders, function(i,order){
-                $('<input />').attr('type', 'hidden')
-                .attr('name', order)
-                .attr('value', i+1)
-                .appendTo('#form_timer');
-            });
-            var input = $("<input>").attr("type", "hidden").attr("name", "commit").val("change_turn_order");
-            $('#form_timer').append($(input));
-            $("#form_timer").submit();
-        }
-    });
-});

@@ -10,6 +10,7 @@ class TimerController < ApplicationController
       @game.save
 
       @game.number_of_players.times do |i|
+        print "doing sessions for " + @game_sessions[i].player.name
         turn_order = @game_sessions[i].turn_order
 
         @game_sessions[i].turn_time = @game.time_per_turn

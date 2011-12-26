@@ -1,28 +1,28 @@
-<h1>New Game session</h1>
-
-<%= form_tag({:action => :create_game},:method => "post") do %>
+<%=  image_tag("logo.png", :size => "354x100") %> 
+<h1>Creating new game</h1>
+<%= form_tag({:action => :create_game},{:method => "post", 'data-ajax' => "false"}) do %>
   <div class="field">
     <%= label_tag "Name" %><br />
     <%= text_field_tag "game[name]", "Caylus @ m&m" %>
   </div>
-  <div class="field">
+  <fieldset data-role="controlgroup" data-type="horizontal">
     <%= label_tag @game.time_per_turn, "Time per turn" %><br />
     <%= time_select "game", "time_per_turn",
-        :include_seconds => true,
-        :prompt => {:hour => 'Choose hour',:minute => 'Choose minute',:second => 'Choose seconds'} %>
-  </div>
-  <div class="field">
+      :include_seconds => true,
+      :prompt => {:hour => 'Choose hour',:minute => 'Choose minute',:second => 'Choose seconds'} %>
+  </fieldset>
+  <fieldset data-role="controlgroup" data-type="horizontal">
     <%= label_tag @game.timebank_per_player, "Timebank per player" %><br />
     <%= time_select "game", "timebank_per_player",
-        :include_seconds => true,
-        :prompt => {:hour => 'Choose hour',:minute => 'Choose minute', :second => 'Choose seconds'} %>
-  </div>
-  <div class="field">
+      :include_seconds => true,
+      :prompt => {:hour => 'Choose hour',:minute => 'Choose minute', :second => 'Choose seconds'} %>
+  </fieldset>
+  <fieldset data-role="controlgroup" data-type="horizontal">
     <%= label_tag @game.interlude_per_turn, "Interlude per turn" %><br />
     <%= time_select "game", "interlude_per_turn",
       :include_seconds => true,
       :prompt => {:hour => 'Choose hour',:minute => 'Choose minute', :second => 'Choose seconds'} %>
-  </div>
+  </fieldset>
 
   <div class="field">
     <%= label_tag "Number of players" %><br />

@@ -1,11 +1,10 @@
-<div id="script_area">
-  <% content_for(:head) do %>
-    <%= javascript_include_tag "timer" %>
-  <% end %>
-</div>
+
+<% content_for(:head) do %>
+  <%= javascript_include_tag "timer" %>
+<% end %>
 
 <%#= image_tag("logo.png", :alt => "Timebank Piggy", :class => "round") %>
-<%= form_tag({:action => :index},:method => "get",:id =>'form_timer', :remote=>true) do %>
+<%= form_tag({:controller => 'timer',:action => :index},:method => "post",:id =>'form_timer', :remote=>true) do %>
   <div data-role="navbar">
     <ul>
       <li><a href="pause.html" data-rel="dialog" data-transition="flip">Pause</a></li>
@@ -21,24 +20,28 @@
 
   <div id="timer_area" class="ui-bar-e">
     <%= hidden_field_tag 'game_id', @game.id %>
+    <%= hidden_field_tag "game_time", @game.game_time.strftime("%H:%M:%S") %>
+    <%= hidden_field_tag "number_of_players", @game.number_of_players %>
     <%= hidden_field_tag 'round_number', @game.round_number %>
-    <h3 class="player-area"><%= @game.name %> (Round #<%= @game.round_number %>)</h3>
+    <%= hidden_field_tag 'turn_number', @game.turn_number %>
+    <%= hidden_field_tag 'interlude_per_turn', @game.interlude_per_turn.strftime("%S seconds") %>
+    <h3 class="player-area"><%= @game.name %> (Round #<span id="round_number_display"></span>)</h3>
     <h1 style="font-size:200%;color:blue" class="player-area" ><span id="message">Round is about to start...</span></h1>
-    <h3  class="player-area">3:38 (timebank: 10:23)</h3>
-    <h5  class="player-area">press to continue</h5>
+    <h3  class="player-area"><span id="message_time">a fresh new game!</span></h3>
+    <button class="ui-btn-hidden" onclick="continue_step();return false" id="continue_button">press to continue</button>
   </div>
-  <div id="player_area_top">
-    <%= render 'players_top' %>
+  <div id="player_area_bottom">
+    <%= render 'players_bottom' %>
   </div>
 
 
   <h2>Actions</h2>
   <table>
     <tr>
-      <td><%= button_to_function "Start round", "startRound()", {:id => "start_round_button"} %></td>
-      <td><%= button_to_function "Next", "nextPlayer()", {:style => "visibility:hidden", :id => "next_button",:disable_with => "Please wait..."} %></td>
-      <td><%= button_to_function "Pause", "pauseGame()", {:style => "visibility:hidden", :id => "pause_button"} %></td>
-      <td><%= button_to_function "Resume", "resumeGame()", {:style => "visibility:hidden", :id => "resume_button"} %></td>
+      <td><%= button_to_function "Start round", "startRound()", {:id => "astart_round_button"} %></td>
+      <td><%= button_to_function "Next", "nextPlayer()", {:style => "visibility:hidden", :id => "anext_button",:disable_with => "Please wait..."} %></td>
+      <td><%= button_to_function "Pause", "pauseGame()", {:style => "visibility:hidden", :id => "apause_button"} %></td>
+      <td><%= button_to_function "Resume", "resumeGame()", {:style => "visibility:hidden", :id => "aresume_button"} %></td>
     </tr>
   </table>
   <table>
