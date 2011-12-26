@@ -1,6 +1,6 @@
 <%=  image_tag("logo.png", :size => "354x100") %> 
 <h1>Creating new game</h1>
-<%= form_tag({:action => :create_game},{:method => "post", 'data-ajax' => "false", 'data-role'=>"dialog", 'data-transition' => 'flip'}) do %>
+<%= form_tag({:action => :create_game},{:method => "post", 'data-ajax' => "false"}) do %>
   <div class="field">
     <%= label_tag "Name" %><br />
     <%= text_field_tag "game[name]", "Caylus @ m&m" %>
