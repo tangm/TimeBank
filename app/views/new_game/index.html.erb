@@ -29,6 +29,12 @@
     <%= text_field_tag "game[number_of_players]","4" %>
   </div>
 
+  <div class="field">
+    <%= label_tag "Type of first player progression" %><br />
+    <%= select_tag "game[first_type]", options_for_select(@first_type_descriptions) %>
+  </div>
+
+
   <div class="actions">
     <%= submit_tag "Create new game" %>
   </div>
