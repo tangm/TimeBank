@@ -12,6 +12,7 @@
            tb: <%= text_field_tag "player_time_bank_"+(game_session.turn_order + 1).to_s, game_session.time_bank.strftime("%M:%S"), :class => "player-area timebank" %>
           <br/>time taken so far<%= text_field_tag "player_time_taken_so_far_"+(game_session.turn_order + 1).to_s, game_session.time_taken_so_far.strftime("%H:%M:%S"), :class => "player-area", :readonly => true %>
           <%= hidden_field_tag "player_id_"+(game_session.turn_order + 1).to_s, game_session.player.id %>
+          <button type="submit" name="new_first_turn_order" value="<%= game_session.turn_order %>" class="set-as-first">Set as #1</button>
         </div>
       </div>
     <% end %>

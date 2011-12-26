@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(:version => 20111226110436) do
     t.time     "time_per_turn",       :default => '2000-01-01 00:03:00'
     t.time     "timebank_per_player", :default => '2000-01-01 00:10:00'
     t.time     "game_time",           :default => '2000-01-01 00:00:00'
-    t.integer  "turn_number",         :default => 1
+    t.integer  "turn_number",         :default => 0
     t.integer  "round_number",        :default => 0
     t.time     "interlude_per_turn",  :default => '2000-01-01 00:00:03'
     t.integer  "number_of_players"
