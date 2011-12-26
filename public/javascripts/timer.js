@@ -1,4 +1,13 @@
 
+$(function() {
+    $('#pause_button').click(function(e){
+        pauseGame();
+    });
+    $('#resume_button').click(function(e){
+        resumeGame();
+    });
+});
+
 function updateStats() {
     timeTicks("game_time",1,true);
 
@@ -126,10 +135,12 @@ function doInterludeThenUpdateStats() {
     turnNumber = document.getElementById("turn_number").value;
     document.getElementById("message").innerHTML = document.getElementById("player_name_"+turnNumber).value + "'s turn is starting in " + document.getElementById("interlude_per_turn").value;
     document.getElementById("message_time").innerHTML = "&nbsp"
+    clearInterval(intervalId);
     intervalId = setTimeout("updateStatsInInterval()",interludeTime * 1000);
 }
 
 function updateStatsInInterval() {
+    clearInterval(intervalId);
     intervalId = setInterval("updateStats()",1000);
 }
 function pauseGame() {
@@ -138,6 +149,7 @@ function pauseGame() {
 }
 
 function resumeGame() {
+    clearInterval(intervalId);
     intervalId = setTimeout("updateStatsInInterval()", 1000);
 
 }
@@ -148,7 +160,6 @@ function endGame() {
 }
 
 function nextPlayer() {
-    clearInterval(intervalId);
 
     turnNumber = parseInt(document.getElementById("turn_number").value,10);
     turnNumber += 1;
