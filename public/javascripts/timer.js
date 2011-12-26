@@ -11,8 +11,8 @@ $(function() {
         $("#form_game_settings").submit();
     });
     $("body").keydown(function(e){
-        var k = evt ? evt.which : window.event.keyCode;
-        if (k == 32) continue_step();
+        var k = e ? e.which : window.event.keyCode;
+        if (k == 32 || k==43 || k==44) continue_step();
     });
 });
 
