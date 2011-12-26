@@ -18,18 +18,38 @@ class TimerController < ApplicationController
         @game_sessions[i].time_taken_so_far = params["player_time_taken_so_far_"+(turn_order+1).to_s]
         @game_sessions[i].save
       end
-      if params["commit"] == "change_turn_order"
-        print "insider change turn order==============================="
-        @game.number_of_players.times do |i|
-          turn_order = @game_sessions[i].turn_order
-
-          @game_sessions[i].turn_order = ((params["player_new_turn_order_"+(turn_order+1).to_s]).to_i-1)
-          @game_sessions[i].save
+      if params["new_first_turn_order"] 
+        print "insider change turn order===============================\n"
+        new_first_turn_order = params["new_first_turn_order"].to_i
+        print "new first turn order is #{new_first_turn_order}\n"
+        if @game.first_type == Game::MOVE_TO_FRONT
+          print "move to front\n"
+          @game_sessions.each { |game_session|
+            print "game_session turn order is #{game_session.turn_order}\n"
+            if game_session.turn_order == new_first_turn_order
+              game_session.turn_order = 0
+            elsif game_session.turn_order < new_first_turn_order 
+              game_session.turn_order += 1
+            end
+            print "game_session turn order is now #{game_session.turn_order}\n"
+            game_session.save
+          }
+        elsif @game.first_type == Game::ROTATE_TO_FRONT 
+          @game_sessions.each { |game_session|
+            print "game_session turn order is #{game_session.turn_order}\n"
+            game_session.turn_order -= new_first_turn_order
+            # You might go overboard
+            game_session.turn_order %= @game.number_of_players
+            print "game_session turn order is now #{game_session.turn_order}\n"
+            game_session.save
+          }
         end
 
         @game_sessions = GameSession.where(:game_id => params[:game_id]).order :turn_order
+        
+        redirect_to :action =>:index,:game_id => params[:game_id]
 
-        format.html { redirect_to :action =>:index,:game_id => params[:game_id] }
+#        format.html {  }
         
       elsif params["turn_number"] == "-1" #end game triggered
         @game.ended_at = Time.now
@@ -41,12 +61,6 @@ class TimerController < ApplicationController
         redirect_to :action =>:index,:game_id => params[:game_id] 
       end
     end
-  end
-
-  def change_turn_order
-    @game = Game.find(params[:game_id])
-    @game_sessions = GameSession.where(:game_id => params[:game_id])
-    
   end
 
   def end_game
