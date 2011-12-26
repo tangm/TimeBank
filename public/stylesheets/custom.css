@@ -8,12 +8,13 @@ input.player-area {
     text-align:center;
 }
 
-input[disabled='disabled'].player-area {
+input[readonly='readonly'].player-area {
     border: 0px solid;
     box-shadow: none;
     background-color:transparent;
     color:inherit;
     display:inline;
+    width: 100px;
 }
 
 input.player-area.timebank {

@@ -157,7 +157,7 @@ function nextPlayer() {
 
     if (turnNumber > numberOfPlayers) {
         document.getElementById("turn_number").value = 0;
-        document.getElementById("message").innerHTML = "end of round, press to start next round"
+        document.getElementById("message").innerHTML = "End of round, please wait..."
 
         $("#form_timer").submit();
     } else {
