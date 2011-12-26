@@ -122,7 +122,7 @@ function startRound() {
 
 function continue_step() {
     document.getElementById("message_time").style.color = "black";
-    $(".set-as-first").hide();
+    $(".set-as-first").parents(".ui-btn").hide();
     turnNumber = parseInt(document.getElementById("turn_number").value,10);
     if (turnNumber === 0) {
         startRound();
