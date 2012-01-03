@@ -2,7 +2,7 @@
 <h1>Creating new game</h1>
 <%= form_tag({:action => :create_game},{:method => "post", 'data-ajax' => "false"}) do %>
   <div class="field">
-    <%= label_tag "Name" %><br />
+    <%= label_tag "game[name]", "Name" %>
     <%= text_field_tag "game[name]", "Caylus @ m&m" %>
   </div>
   <fieldset data-role="controlgroup" data-type="horizontal">
@@ -25,7 +25,7 @@
   </fieldset>
 
   <div class="field">
-    <%= label_tag "Number of players" %><br />
+    <%= label_tag "game[number_of_players]", "Number of players" %>
     <%= text_field_tag "game[number_of_players]","4" %>
   </div>
 

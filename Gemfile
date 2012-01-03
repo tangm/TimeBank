@@ -8,13 +8,11 @@ gem 'jquery-rails', '>= 1.0.12'
 
 gem 'sqlite3-ruby', :require => 'sqlite3'
 
-group :development do
+group :development, :test do
   gem 'rspec-rails', '2.0.1'
-end
-
-group :test do
-  gem 'rspec','2.0.1'
-  gem 'webrat','0.7.1'
+  gem 'cucumber-rails', '>= 0.3.2'
+  gem 'database_cleaner'
+  gem 'factory_girl_rails'
 end
 
 # Use unicorn as the web server
